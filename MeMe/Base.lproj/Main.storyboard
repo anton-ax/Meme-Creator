@@ -45,7 +45,7 @@
                                         <rect key="frame" x="252" y="452" width="97" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" returnKeyType="done"/>
                                         <variation key="heightClass=regular" fixedFrame="YES">
                                             <rect key="frame" x="252" y="654" width="97" height="30"/>
                                         </variation>
