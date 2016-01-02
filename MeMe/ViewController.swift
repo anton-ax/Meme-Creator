@@ -58,7 +58,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bottomText.delegate = upperCaseDelegate
         upperCaseDelegate.bottomText = bottomText
         
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -83,52 +83,52 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
         super.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
-        if self.image != nil {
-            self.imagePreview.frame = generatePreviewSize()
+        if image != nil {
+            imagePreview.frame = generatePreviewSize()
         }
         updateTextFields()
-        self.topText.hidden = false
-        self.bottomText.hidden = false
+        topText.hidden = false
+        bottomText.hidden = false
     }
     
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         super.willRotateToInterfaceOrientation(toInterfaceOrientation, duration: duration)
-        self.topText.hidden = true
-        self.bottomText.hidden = true
+        topText.hidden = true
+        bottomText.hidden = true
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
             shareButton.enabled = true
-            self.imagePreview.image = image
-            self.imagePreview.frame = generatePreviewSize()
+            imagePreview.image = image
+            imagePreview.frame = generatePreviewSize()
             
             updateTextFields()
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func generatePreviewSize() -> CGRect {
-        let point = self.container.frame.origin
-        let size = self.container.frame.size
-        return AVMakeRectWithAspectRatioInsideRect(self.image.size, CGRectMake(point.x, point.y, size.width, size.height))
+        let point = container.frame.origin
+        let size = container.frame.size
+        return AVMakeRectWithAspectRatioInsideRect(image.size, CGRectMake(point.x, point.y, size.width, size.height))
     }
     
     func updateTextFields() {
-        let imageFrame = self.imagePreview.frame
+        let imageFrame = imagePreview.frame
         
-        self.topText.frame.size.width = imageFrame.width - 100
-        self.topText.frame.origin.x = imageFrame.origin.x + 50
-        self.topText.frame.origin.y = imageFrame.origin.y + 50
+        topText.frame.size.width = imageFrame.width - 100
+        topText.frame.origin.x = imageFrame.origin.x + 50
+        topText.frame.origin.y = imageFrame.origin.y + 50
         
-        self.bottomText.frame.size.width = imageFrame.width - 100
-        self.bottomText.frame.origin.x = imageFrame.origin.x + 50
-        self.bottomText.frame.origin.y = imageFrame.origin.y + imageFrame.size.height - 50 - self.bottomText.frame.size.height
+        bottomText.frame.size.width = imageFrame.width - 100
+        bottomText.frame.origin.x = imageFrame.origin.x + 50
+        bottomText.frame.origin.y = imageFrame.origin.y + imageFrame.size.height - 50 - bottomText.frame.size.height
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -146,8 +146,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if bottomText.isFirstResponder() {
             let keyboardHeight = getKeyboardHeight(notification)
             let offset = keyboardHeight + imagePreview.frame.size.height + imagePreview.frame.origin.y
-            if offset > self.view.frame.height {
-                self.offset = offset - self.view.frame.height
+            if offset > view.frame.height {
+                self.offset = offset - view.frame.height
                 imagePreview.frame.origin.y -= self.offset
                 updateTextFields()
             } else {
@@ -159,7 +159,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func keyboardWillHide(notification: NSNotification) {
         if bottomText.isFirstResponder() {
-            imagePreview.frame.origin.y += self.offset
+            imagePreview.frame.origin.y += offset
             updateTextFields()
         }
     }
@@ -173,12 +173,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func generateMemedImage() -> UIImage {
         // make screenshot from container
-        UIGraphicsBeginImageContext(self.container.bounds.size)
-        self.container.drawViewHierarchyInRect(self.container.bounds, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(container.bounds.size)
+        container.drawViewHierarchyInRect(container.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         // and crop image with texts from screenshot
-        let imageRef = CGImageCreateWithImageInRect(memedImage.CGImage, self.imagePreview.frame)!
+        let imageRef = CGImageCreateWithImageInRect(memedImage.CGImage, imagePreview.frame)!
         let croppedImage = UIImage(CGImage: imageRef)
         return croppedImage
     }
