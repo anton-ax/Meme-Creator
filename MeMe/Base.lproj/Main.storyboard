@@ -17,10 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qCs-81-xRF">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCs-81-xRF">
                                 <rect key="frame" x="0.0" y="20" width="600" height="600"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c4F-er-0wg">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c4F-er-0wg">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                         <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                             <rect key="frame" x="4" y="0.0" width="392" height="600"/>
@@ -32,7 +32,7 @@
                                             <rect key="frame" x="4" y="0.0" width="392" height="800"/>
                                         </variation>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qFX-Sc-X2r">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qFX-Sc-X2r">
                                         <rect key="frame" x="252" y="107" width="97" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
@@ -41,11 +41,14 @@
                                             <rect key="frame" x="50" y="100" width="700" height="36"/>
                                         </variation>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZrB-zV-3cR">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZrB-zV-3cR">
                                         <rect key="frame" x="252" y="452" width="97" height="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <variation key="heightClass=regular" fixedFrame="YES">
+                                            <rect key="frame" x="252" y="654" width="97" height="30"/>
+                                        </variation>
                                         <variation key="heightClass=compact-widthClass=regular" fixedFrame="YES">
                                             <rect key="frame" x="50" y="264" width="700" height="36"/>
                                         </variation>
@@ -68,7 +71,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NKx-IS-Ii3">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.90000000000000002" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKx-IS-Ii3">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
@@ -137,10 +140,10 @@
                                 <include reference="NKx-IS-Ii3"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="KsR-nF-cM8"/>
                                 <include reference="LeH-BI-Izz"/>
                                 <include reference="Xb1-78-zDZ"/>
                                 <include reference="xHk-pK-CdZ"/>
+                                <include reference="KsR-nF-cM8"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -165,6 +168,7 @@
                         <outlet property="cameraButton" destination="ec5-86-jr9" id="RTN-Oz-hCg"/>
                         <outlet property="container" destination="qCs-81-xRF" id="dKQ-7R-gQw"/>
                         <outlet property="imagePreview" destination="c4F-er-0wg" id="V2z-fF-Y4V"/>
+                        <outlet property="shareButton" destination="iZa-0B-5qM" id="zhv-rX-Ygg"/>
                         <outlet property="topText" destination="qFX-Sc-X2r" id="l55-bI-122"/>
                     </connections>
                 </viewController>

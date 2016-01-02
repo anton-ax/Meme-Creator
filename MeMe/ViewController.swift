@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var imagePreview: UIImageView!
@@ -17,8 +17,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var image: UIImage!
     var offset: CGFloat = 0
     
+    var upperCaseDelegate: UpperCaseTextFieldDelegate = UpperCaseTextFieldDelegate()
+    
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     
     @IBOutlet weak var container: UIView!
     
@@ -39,6 +42,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         updateTextFields()
+        shareButton.enabled = image != nil
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,11 +50,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         topText.defaultTextAttributes = memeTextAttributes
         topText.textAlignment = NSTextAlignment.Center
-        topText.delegate = self
+        topText.delegate = upperCaseDelegate
+        upperCaseDelegate.topText = topText
         
         bottomText.defaultTextAttributes = memeTextAttributes
         bottomText.textAlignment = NSTextAlignment.Center
-        bottomText.delegate = self
+        bottomText.delegate = upperCaseDelegate
+        upperCaseDelegate.bottomText = bottomText
         
         self.subscribeToKeyboardNotifications()
     }
@@ -65,6 +71,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topText.text = "TOP"
         image = nil
         imagePreview.image = nil
+        shareButton.enabled = false
     }
     
     @IBAction func pickAnImage(sender: AnyObject) {
@@ -91,7 +98,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
-            
+            shareButton.enabled = true
             self.imagePreview.image = image
             self.imagePreview.frame = generatePreviewSize()
             
@@ -133,24 +140,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         presentViewController(controller, animated: true, completion: nil)
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string.uppercaseString)
-        return false
-    }
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        let isTopDefaultText = topText.isFirstResponder() && textField.text == "TOP"
-        let isBottomDefaultText = bottomText.isFirstResponder() && textField.text == "BOTTOM"
-        if  isTopDefaultText || isBottomDefaultText {
-            textField.text = ""
-        }
-    }
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
     func keyboardWillShow(notification: NSNotification) {
         if bottomText.isFirstResponder() {
             let keyboardHeight = getKeyboardHeight(notification)
@@ -175,26 +164,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func save() {
         let memedImage = generateMemedImage()
-        let meme = Meme(topText: topText.text!, memedImage: memedImage, bottomText: bottomText.text!, originalImage: imagePreview.image!)
-        
+        let meme = Meme(topText: topText.text!, memedImage: memedImage,
+            bottomText: bottomText.text!, originalImage: imagePreview.image!)
+        // todo: need to save somewhere !?
     }
     
     func generateMemedImage() -> UIImage {
-        
-        let rect = CGRect.init(x: imagePreview.bounds.origin.x, y: imagePreview.bounds.origin.y, width: container.bounds.width, height: imagePreview.bounds.size.height)
-        UIGraphicsBeginImageContext(view.bounds.size)
-        
-        self.container.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
-        
+        // make screenshot from container
+        UIGraphicsBeginImageContext(self.container.bounds.size)
+        self.container.drawViewHierarchyInRect(self.container.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-    
-        
         UIGraphicsEndImageContext()
+        // and crop image with texts from screenshot
+        let imageRef = CGImageCreateWithImageInRect(memedImage.CGImage, self.imagePreview.frame)!
+        let croppedImage = UIImage(CGImage: imageRef)
         return croppedImage
     }
-    
-    
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo
@@ -203,8 +188,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func subscribeToKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {

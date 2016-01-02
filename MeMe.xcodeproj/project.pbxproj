@@ -14,6 +14,8 @@
 		DA1E52941C2EABE30011D6D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA1E52921C2EABE30011D6D0 /* LaunchScreen.storyboard */; };
 		DA1E529F1C2EABE30011D6D0 /* MeMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1E529E1C2EABE30011D6D0 /* MeMeTests.swift */; };
 		DA1E52AA1C2EABE30011D6D0 /* MeMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1E52A91C2EABE30011D6D0 /* MeMeUITests.swift */; };
+		DAD8EEC21C384D3400C6B2A5 /* UpperCaseTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD8EEC11C384D3400C6B2A5 /* UpperCaseTextFieldDelegate.swift */; };
+		DAD8EEC41C38504C00C6B2A5 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DAD8EEC31C38504C00C6B2A5 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		DA1E52A51C2EABE30011D6D0 /* MeMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1E52A91C2EABE30011D6D0 /* MeMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMeUITests.swift; sourceTree = "<group>"; };
 		DA1E52AB1C2EABE30011D6D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAD8EEC11C384D3400C6B2A5 /* UpperCaseTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpperCaseTextFieldDelegate.swift; sourceTree = "<group>"; };
+		DAD8EEC31C38504C00C6B2A5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 		DA1E527D1C2EABE30011D6D0 = {
 			isa = PBXGroup;
 			children = (
+				DAD8EEC31C38504C00C6B2A5 /* .gitignore */,
 				DA1E52881C2EABE30011D6D0 /* MeMe */,
 				DA1E529D1C2EABE30011D6D0 /* MeMeTests */,
 				DA1E52A81C2EABE30011D6D0 /* MeMeUITests */,
@@ -99,6 +104,7 @@
 			children = (
 				DA1E52891C2EABE30011D6D0 /* AppDelegate.swift */,
 				DA1E528B1C2EABE30011D6D0 /* ViewController.swift */,
+				DAD8EEC11C384D3400C6B2A5 /* UpperCaseTextFieldDelegate.swift */,
 				DA1E528D1C2EABE30011D6D0 /* Main.storyboard */,
 				DA1E52901C2EABE30011D6D0 /* Assets.xcassets */,
 				DA1E52921C2EABE30011D6D0 /* LaunchScreen.storyboard */,
@@ -229,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAD8EEC41C38504C00C6B2A5 /* .gitignore in Resources */,
 				DA1E52941C2EABE30011D6D0 /* LaunchScreen.storyboard in Resources */,
 				DA1E52911C2EABE30011D6D0 /* Assets.xcassets in Resources */,
 				DA1E528F1C2EABE30011D6D0 /* Main.storyboard in Resources */,
@@ -257,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA1E528C1C2EABE30011D6D0 /* ViewController.swift in Sources */,
+				DAD8EEC21C384D3400C6B2A5 /* UpperCaseTextFieldDelegate.swift in Sources */,
 				DA1E528A1C2EABE30011D6D0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
