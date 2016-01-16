@@ -14,6 +14,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var imagePreview: UIImageView!
     
+    // for editing
+    var meme: Meme!
+    
     var image: UIImage!
     var offset: CGFloat = 0
     
@@ -36,11 +39,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let memedImage = generateMemedImage()
         let activityVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         
+        activityVC.completionWithItemsHandler = {
+            (activity: String?, completed: Bool, items: [AnyObject]?, error: NSError?) -> Void in
+            if completed {
+                self.save()
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+
+        
         presentViewController(activityVC, animated: true, completion: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // if we edit existing meme
+        if let meme = meme{
+            image = meme.originalImage
+            topText.text = meme.topText
+            bottomText.text = meme.bottomText
+            imagePreview.image = meme.originalImage
+            updateWithImage()
+        }
         updateTextFields()
         shareButton.enabled = image != nil
     }
@@ -67,11 +88,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func cancelAll(sender: AnyObject) {
-        bottomText.text = "BOTTOM"
-        topText.text = "TOP"
-        image = nil
-        imagePreview.image = nil
-        shareButton.enabled = false
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func pickAnImage(sender: AnyObject) {
@@ -100,13 +117,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
-            shareButton.enabled = true
-            imagePreview.image = image
-            imagePreview.frame = generatePreviewSize()
-            
-            updateTextFields()
+            updateWithImage()
         }
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func updateWithImage() {
+        shareButton.enabled = true
+        imagePreview.image = image
+        imagePreview.frame = generatePreviewSize()
+        
+        updateTextFields()
     }
     
     func generatePreviewSize() -> CGRect {
@@ -168,7 +189,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let memedImage = generateMemedImage()
         let meme = Meme(topText: topText.text!, memedImage: memedImage,
             bottomText: bottomText.text!, originalImage: imagePreview.image!)
-        // todo: need to save somewhere !?
+        // save meme
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.memes.append(meme)
     }
     
     func generateMemedImage() -> UIImage {
@@ -199,13 +222,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func unsubscribeFromKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    struct Meme {
-        var topText: String
-        var memedImage: UIImage
-        var bottomText: String
-        var originalImage: UIImage
     }
 }
 
